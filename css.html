@@ -1,0 +1,109 @@
+<style>
+body {
+  font-family:"Zen Kurenaido";
+  background-color: rgba(245, 245, 245, 0.9);
+}
+
+h2{
+  font-size: x-large;
+}
+
+  img{
+    max-width: 800px;
+    width:80%;
+    height:auto;
+  }
+
+input[type="file"]{
+ 
+}
+input[type="submit"]{
+display:none;
+}
+
+label{
+   padding: 10px 40px;
+    color: #30e0e;
+    background-color: #fbcbff;
+    cursor: pointer;
+}
+
+form {
+    margin: 50px auto;
+    width:80%;
+    height:auto;
+    box-shadow: 0 0 2px #3e3e3e;
+    padding: 30px;
+    text-align: center;
+}
+ 
+.upload-area {
+    margin: auto;
+    width: 85%;
+    height: 300px;
+    position: relative;
+    border: 1px dotted rgba(0, 0, 0, .4);
+    background-image:url(http://drive.google.com/uc?export=view&id=1ZHvZwwR3S7ivo8PJUQqOvz4udUqvF_5U);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-color:rgba(255,255,255,0.9);
+    background-blend-mode:lighten;
+}
+.upload-area i {
+    position: absolute;
+    font-size: 120px;
+    opacity: .1;
+    width: 100%;
+    left: 0;
+    top: 80px;
+}
+.upload-area p {
+    width: 100%;
+    position: relative;
+    top: 80px;
+    opacity: .8;
+}
+
+#file {
+    top: 0;
+    left: 0;
+    opacity: 0;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+ 
+#upload {
+    font-weight: bold;
+    margin-top: 20px;
+    border-radius: 3px;
+    width: 200px;
+    height: 45px;
+    background-color: rgba(108, 168, 255, .7);
+    border: none;
+    box-shadow: 0 5px 0 rgba(0, 0, 0, 0.6);
+    opacity: .6;
+    cursor: pointer;
+}
+#upload:hover {
+    background-color: rgba(108, 168, 255, 1.0);
+}
+#upload:active {
+    position: relative;
+    top: 5px;
+    box-shadow: none;
+}
+canvas {
+	//background: #fff;
+  //borderRadius: '7px';
+  //touchAction: 'none';
+  display:none !important;
+}
+@media screen and (max-width : 599px){
+  output{
+    width:80%;
+    height:auto;
+  }
+}
+
+</style>

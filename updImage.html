@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <?!= HtmlService.createHtmlOutputFromFile("css").getContent(); ?>
+    <script>
+      // Prevent forms from submitting.
+      function preventFormSubmit() {
+        const forms = document.querySelectorAll('form');
+        for (let i = 0; i < forms.length; i++) {
+          forms[i].addEventListener('submit', function(event) {
+            event.preventDefault();
+          });
+        }
+      }
+      window.addEventListener('load', preventFormSubmit);
+
+
+       // アップロードボタンを最初は無効にする
+       document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("upload").disabled = true;
+      }, false);
+
+        // 制限サイズ以内のファイルが選択されたらアップロードボタンを有効にする
+        function changeSubmitButton() {
+          const len = document.getElementById("file").files.length;
+          const uploadButton = document.getElementById("upload");
+          const fileName = document.getElementById('filename');
+          //resizedImg(document.getElementById("file").files[0])
+        fileName.innerHTML = '<p>' + document.getElementById("file").files[0].name + '</p>';
+          if (len > 0) {
+            uploadButton.disabled = false;
+          } else {
+            uploadButton.disabled = true;
+        }
+      }
+
+      function handleFormSubmit(formObject) {
+        resetCanvas();
+        resizedImg(document.getElementById("file").files[0]);
+        google.script.run.withSuccessHandler(mixImg).withFailureHandler(failure).returnBase64Data();
+      }
+      
+      function resizedImg(imgData){
+        const ctx = canvas.getContext('2d');
+        const reader = new FileReader();
+        reader.readAsDataURL(imgData);
+        reader.onload = function(){
+          const dataUrl = reader.result;
+          const img = new Image();
+          img.src = dataUrl;
+          img.onload = function(){
+            const orgHeight = img.height;
+            const orgWidth = img.width; 
+          ctx.drawImage(img, 0, 0,canvas.width,orgHeight * (canvas.width / orgWidth));
+          }
+        }
+      }
+
+      function mixImg(imgData) {
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+          const dataUrl = imgData[0];
+          const img = new Image();
+          img.src = dataUrl;
+          img.onload = function(){
+            const orgHeight = img.height;
+            const orgWidth = img.width; 
+          ctx.drawImage(img, 0, 0,img.width,orgHeight * (img.width / orgWidth));
+          outPutImage(imgData[1])
+        }
+
+      }
+
+      function failure(){
+        alert("失敗");
+      }
+
+      function outPutImage(text) {
+        const canvas = document.getElementById("canvas");
+        const dataUri = canvas.toDataURL();
+        const div = document.getElementById('output');
+        div.src = dataUri;
+        const message = document.getElementById('message');
+        message.innerHTML = '<p>' + text +'</p>';
+      }
+
+      function resetCanvas() {
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d');
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    </script>
+  </head>
+  <body>
+        <!-- アス比保持と見切れ防止のため高さを過剰に取ってます -->
+        <canvas id="canvas" width="800" height="1920"></canvas>
+      <div id="myform" style="text-align:center;">
+      <h2>ちんちんの画像あげて♥</h2>
+      <br>
+      <br>
+      <form onsubmit="handleFormSubmit(this)">
+        <div class="upload-area">
+            <i class="fas fa-cloud-upload-alt"></i>
+            <p>ドラックアンドドロップもしくはクリックでファイル選択してね♥</p>
+            <input id="file" name="myFile" type="file" onchange="changeSubmitButton()" accept="image/*" />
+            <br>
+            <div id="filename"></div>
+        </div>
+        <br>
+        <br>
+        <br>
+        <label>
+        <input id="upload" type="submit" value="アップロード♥" />アップロード♥しちゃおうね♥
+        </label>
+      </form>
+    <div id ="message"></div>
+    <img id="output" src=""></div>
+    
+ </body>
+</html>
